@@ -48,17 +48,19 @@ function torchlight () {
     } else {
         Environment.ledBrightness(AnalogPin.P4, false, 0)
         basic.showLeds(`
-            # # . . .
-            # # # . .
-            . # # # .
-            . . # # #
+            # . . . .
+            . # . . .
+            . . # . .
+            . . . # #
             . . . # #
             `)
         torch = 0
     }
 }
 input.onButtonPressed(Button.B, function () {
-    torchlight()
+    if (init == 1) {
+        torchlight()
+    }
 })
 function dust () {
     if (Environment.ReadDust(DigitalPin.P9, AnalogPin.P10) < 100) {
@@ -108,6 +110,7 @@ function dust () {
 let strip: neopixel.Strip = null
 let torch = 0
 let init = 0
+init = 0
 let LOAD = 0
 OLED.init(128, 64)
 powerI()
