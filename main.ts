@@ -2,7 +2,6 @@ function powerI () {
     torch = 0
     strip = neopixel.create(DigitalPin.P1, 10, NeoPixelMode.RGB)
     strip.clear()
-    OLED.init(128, 64)
 }
 // P1> NEOPIXEL
 // 
@@ -108,8 +107,29 @@ function dust () {
 }
 let strip: neopixel.Strip = null
 let torch = 0
+let init = 0
+let LOAD = 0
+OLED.init(128, 64)
 powerI()
+OLED.writeString("PUBLIC RELEASE")
+while (LOAD < 100) {
+    basic.showString("PUBLIC RELEASE")
+    basic.showString("" + (control.deviceSerialNumber()))
+}
+OLED.newLine()
+OLED.writeNum(control.deviceSerialNumber())
+OLED.clear()
+while (LOAD < 100) {
+    OLED.drawLoading(LOAD)
+    basic.pause(40)
+    LOAD = LOAD + 1
+}
+init = 1
+basic.clearScreen()
+OLED.clear()
 basic.forever(function () {
-    data()
-    dust()
+    if (init == 1) {
+        data()
+        dust()
+    }
 })
